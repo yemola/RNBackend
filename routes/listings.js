@@ -19,7 +19,7 @@ const upload = multer({
 
 const schema = yup.object().shape({
   title: yup.string().required(),
-  description: yup.string().allow(""),
+  description: yup.string(),
   price: yup.number().required().min(1),
   categoryId: yup.number().required().min(1),
   location: yup
