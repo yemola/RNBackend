@@ -54,7 +54,7 @@ router.post(
     // stored in the uploads folder. We'll need to clean up this folder
     // using a separate process.
     // auth,
-    upload.array("images", config.get("maxImageCount")),
+    upload.array("images", process.env.maxImageCount),
     validateWith(schema),
     validateCategoryId,
     imageResize,
