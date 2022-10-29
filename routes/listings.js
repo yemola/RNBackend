@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Joi = require("joi");
+const yup = require("yup");
 const multer = require("multer");
 
 const store = require("../store/listings");
@@ -17,16 +17,18 @@ const upload = multer({
   limits: { fieldSize: 25 * 1024 * 1024 },
 });
 
-const schema = {
-  title: Joi.string().required(),
-  description: Joi.string().allow(""),
-  price: Joi.number().required().min(1),
-  categoryId: Joi.number().required().min(1),
-  location: Joi.object({
-    latitude: Joi.number().required(),
-    longitude: Joi.number().required(),
-  }).optional(),
-};
+const schema = yup.object().shape({
+  title: yup.string().required(),
+  description: yup.string().allow(""),
+  price: yup.number().required().min(1),
+  categoryId: yup.number().required().min(1),
+  location: yup
+    .object({
+      latitude: yup.number().required(),
+      longitude: yup.number().required(),
+    })
+    .optional(),
+});
 
 const validateCategoryId = (req, res, next) => {
   if (!categoriesStore.getCategory(parseInt(req.body.categoryId)))
